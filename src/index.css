@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme{
+  --font-roboto: 'Roboto', sans-serif;
+}
+
+:root{
+  @apply font-roboto;
+}

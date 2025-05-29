@@ -1,0 +1,28 @@
+{
+  "name": "youtube-clone-backend",
+  "version": "1.0.0",
+  "description": "This is backend Inplementation for my youtube-clone project. This involves major functionalities of YouTube such as User Authentication, Search and filter functionality, Video player page, channel page, option to create ones own channel and also added important functionalities to Videos such as likes, dislikes, comments etc...",
+  "keywords": [
+    "YouTube",
+    "Clone",
+    "Backend",
+    "Capstone",
+    "Project"
+  ],
+  "license": "ISC",
+  "author": "Rohit Varma Datla",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
