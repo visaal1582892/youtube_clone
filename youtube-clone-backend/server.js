@@ -1,6 +1,7 @@
 import express from "express";
-import dotenv from "dotenv";
 import connectToDb from './utils/db.js';
+import userRouter from './Routes/users.routes.js'
+import dotenv from "dotenv";
 dotenv.config()
 
 // Creating express server
@@ -9,13 +10,16 @@ const app=express();
 // Using Application level middleware to prase json data from requests
 app.use(express.json());
 
+// Adding userRouter to my app
+app.use('/users',userRouter);
+
 // Using Application level middleware to handle unknown errors
-app.use((err,req,res,next) => {
-    if(err){
-        return res.send(err);
-    }
-    next();
-})
+app.use((err, req, res, next) => {
+  if(err) {
+    console.error("An error occurred:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 // Connecting To databse
 connectToDb();

@@ -1,14 +1,16 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 const connectToDB = () => {
     // Connecting to database
-    mongoose.connect("mongodb://127.0.0.1:27017/youtube_clone");
+    mongoose.connect(process.env.MONGO_URL);
 
     // Giving Success and Error callbacks
     const dbConnection = mongoose.connection;
 
     dbConnection.on("open", () => {
-        console.log("Datbase connected succesfully");
+        console.log("Database connected successfully");
     });
 
     dbConnection.on("error", () => {
