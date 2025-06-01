@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../Middlewares/fileHandler.js";
+import upload from "../Middleware/fileHandler.js";
 import { registerUser,loginUser } from '../Controller/users.controller.js';
 import { validateRegister,validateLogin } from "../Validator/users.validator.js";
 

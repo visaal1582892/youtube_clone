@@ -27,10 +27,13 @@ const userSchema=mongoose.Schema({
     avatar: {
         type: String,
         trim: true,
-        match: [/^https?:\/\/res\.cloudinary\.com\/.+/, "Enter valid cloudinary url"]
+
+        // We Can add this filter to ensure that the banner and avatar URLs are valid cloudinary URLs
+        // match: [/^https?:\/\/res\.cloudinary\.com\/.+/, "Enter valid cloudinary url"]
     },
     channels: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Channel',
         default: [],
     }
 });

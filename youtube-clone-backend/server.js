@@ -1,8 +1,9 @@
 import express from "express";
 import connectToDb from './utils/db.js';
-import userRouter from './Routes/users.routes.js'
+import userRouter from './Routes/users.routes.js';
+import channelRouter from './Routes/channels.routes.js';
 import dotenv from "dotenv";
-dotenv.config()
+dotenv.config();
 
 // Creating express server
 const app=express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // Adding userRouter to my app
 app.use('/users',userRouter);
+app.use('/channels',channelRouter);
 
 // Using Application level middleware to handle unknown errors
 app.use((err, req, res, next) => {
