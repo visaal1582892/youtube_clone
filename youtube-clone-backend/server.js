@@ -2,6 +2,7 @@ import express from "express";
 import connectToDb from './utils/db.js';
 import userRouter from './Routes/users.routes.js';
 import channelRouter from './Routes/channels.routes.js';
+import videoRouter from './Routes/videos.routes.js';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 // Adding userRouter to my app
 app.use('/users',userRouter);
 app.use('/channels',channelRouter);
+app.use('/videos',videoRouter);
 
 // Using Application level middleware to handle unknown errors
 app.use((err, req, res, next) => {

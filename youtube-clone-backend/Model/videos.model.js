@@ -1,4 +1,21 @@
+import { text } from 'express';
 import mongoose from 'mongoose';
+
+// Creating Comment Schema
+const commentSchema = new mongoose.Schema({
+    text: {
+        type: String,
+        required: [true, "Comment content is a required field"],
+        trim: true,
+        minLength: [1, "Comment content must be at least 1 character long"],
+        maxLength: [500, "Comment content must not exceed 500 characters"]
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, "User is a required field"]
+    },
+});
 
 // Creating Video Schema
 const videoSchema = new mongoose.Schema({
@@ -14,9 +31,26 @@ const videoSchema = new mongoose.Schema({
         trim: true,
         maxLength: [500, "Video Description must not exceed 500 characters"]
     },
+    category: {
+        type: String,
+        required: [true, "Video Category is a required field"],
+        trim: true,
+        enum: {
+            values: ['Music', 'Gaming', 'Education', 'Entertainment', 'News', 'Sports', 'Technology', 'Lifestyle'],
+            message: "Category must be one of the predefined categories"
+        }
+    },
     url: {
         type: String,
-        required: [true, "Video URL is a required field"],
+        trim: true,
+
+        // Giving a dummy video url for now
+        default: "https://res.cloudinary.com/dhc8dqoxo/video/upload/v1748779048/sampleVideo_i6tihg.mp4",
+
+
+        // For later uses
+        // type: String,
+        // required: [true, "Video URL is a required field"],
 
         // We Can add this filter to ensure that the banner and avatar URLs are valid cloudinary URLs
         // match: [/^https?:\/\/res\.cloudinary\.com\/.+/, "Enter valid cloudinary url"]
@@ -49,8 +83,12 @@ const videoSchema = new mongoose.Schema({
         default: 0
     },
     comments: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Comment',
+        // For later uses
+        // type: [mongoose.Schema.Types.ObjectId],
+        // ref: 'Comment',
+        // default: []
+
+        type: [commentSchema],
         default: []
     },
     uploadedAt: {
