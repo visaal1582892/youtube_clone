@@ -1,4 +1,8 @@
-async function createChannelsAndLinkToUsers(userIds) {
+import Channel from "../Model/channels.model.js";
+import User from "../Model/users.model.js";
+
+// Function to create channels for users in a MongoDB database
+async function createChannelsForUsers(userIds) {
   try {
     // Create 10 channels, one per user
     const channelsData = userIds.map((userId, idx) => ({
@@ -30,3 +34,5 @@ async function createChannelsAndLinkToUsers(userIds) {
     console.error('Error creating channels and linking to users:', error);
   }
 }
+
+export default createChannelsForUsers;

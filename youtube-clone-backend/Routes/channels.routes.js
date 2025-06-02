@@ -15,4 +15,7 @@ router.post('/createChannel', protectRoute, upload.fields([{ name: 'banner', max
 // 2. Update a channel
 router.put('/updateChannel/:channelId', protectRoute, upload.fields([{ name: 'banner', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), channelDetailsValidator, updateChannel);
 
+// 3. Delete a channel
+router.delete('/deleteChannel/:channelId', protectRoute, deleteChannel);
+
 export default router;

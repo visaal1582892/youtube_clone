@@ -1,5 +1,6 @@
 import Channel from "../Model/channels.model.js";
 import User from "../Model/users.model.js";
+import Video from "../Model/videos.model.js";
 
 // Function To create a new channel
 export const createChannel = async (req, res) => {
@@ -55,6 +56,36 @@ export const updateChannel = async (req, res) => {
         return res.status(200).json({
             message: "Channel updated successfully",
             channel: updatedChannel
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+
+export const deleteChannel = async (req, res) => {
+    const { channelId } = req.params;
+
+    try {
+        // Validate the channelId and delete the channel
+        if (!channelId) {
+            return res.status(400).json({ message: "Channel ID is required" });
+        }
+        const deletedChannel = await Channel.findByIdAndDelete(channelId);
+
+        if (!deletedChannel) {
+            return res.status(404).json({ message: "Channel not found" });
+        }
+
+        // Remove the channel reference from the user
+        await User.findByIdAndUpdate(deletedChannel.owner, { $pull: { channels: channelId } });
+
+        // Optionally, you can also delete all videos associated with this channel
+        await Video.deleteMany({ channel: channelId });
+
+        return res.status(200).json({
+            message: "Channel deleted successfully"
         });
     } catch (error) {
         return res.status(400).json({

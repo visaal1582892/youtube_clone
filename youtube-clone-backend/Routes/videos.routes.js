@@ -9,3 +9,5 @@ router.post('/uploadVideo', (req, res) => {
     
     res.status(200).json({ message: 'Video uploaded successfully' });
 });
+
+export default router;

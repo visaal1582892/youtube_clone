@@ -1,4 +1,4 @@
-import User from "../Model/users.model";
+import User from "../Model/users.model.js";
 import bcrypt from "bcrypt";
 
 // Dummy users array
@@ -15,13 +15,17 @@ const users = [
   { username: "Julia Nelson", email: "julia10@example.com", password: await bcrypt.hash("hashedpass10", 10) }
 ];
 
-// Insert many users
-const inserted = await User.insertMany(users);
+const insertDummyUsers = async () => {
+  // Insert many users
+  const inserted = await User.insertMany(users);
 
-// Getting userids of all those users inserted
-const userIds = inserted.map(user => user._id);
+  // Getting userids of all those users inserted
+  const userIds = inserted.map(user => user._id);
 
-console.log(`Inserted ${inserted.length} dummy users successfully.`);
+  console.log(`Inserted ${inserted.length} dummy users successfully.`);
 
-// Return the array of user IDs for further use
-return userIds; 
+  // Return the array of user IDs for further use
+  return userIds;
+}
+
+export default insertDummyUsers;
