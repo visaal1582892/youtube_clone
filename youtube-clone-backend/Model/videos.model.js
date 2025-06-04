@@ -40,12 +40,12 @@ const videoSchema = new mongoose.Schema({
             message: "Category must be one of the predefined categories"
         }
     },
-    url: {
+    video: {
         type: String,
         trim: true,
 
         // Giving a dummy video url for now
-        default: "https://res.cloudinary.com/dhc8dqoxo/video/upload/v1748779048/sampleVideo_i6tihg.mp4",
+        default: "https://res.cloudinary.com/dhc8dqoxo/video/upload/v1748847535/sampleVideo_efotir.mp4",
 
 
         // For later uses
@@ -55,7 +55,7 @@ const videoSchema = new mongoose.Schema({
         // We Can add this filter to ensure that the banner and avatar URLs are valid cloudinary URLs
         // match: [/^https?:\/\/res\.cloudinary\.com\/.+/, "Enter valid cloudinary url"]
     },
-    thumbnailUrl: {
+    thumbnail: {
         type: String,
         trim: true,
 

@@ -3,6 +3,7 @@ import User from '../Model/users.model.js';
 // Function To validate user registration
 export const validateRegister = (req,res,next) => {
     const {username,email,password}=req.body;
+    const avatar = req.file ? req.file.path : null;
 
     // Checking if all fields are give or not
     if(!(username && email && password)){
@@ -25,6 +26,17 @@ export const validateRegister = (req,res,next) => {
     }
     if(password.length>25){
         return res.status(400).json({message: "Password cannot have more than 25 characters"});
+    }
+
+    // Validating avatar
+    if(req.file && !/^image/.test(req.file.mimetype)){
+        return res.status(400).json({message: "Avatar must be an image"});
+    }
+
+    if (avatar && !/^https?:\/\/res\.cloudinary\.com\/.+/.test(avatar)) {
+        return res.status(400).json({
+            message: "Enter valid cloudinary url for avatar"
+        });
     }
 
     // Checking if user already exists

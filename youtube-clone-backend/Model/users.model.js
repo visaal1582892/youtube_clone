@@ -27,6 +27,7 @@ const userSchema=mongoose.Schema({
     avatar: {
         type: String,
         trim: true,
+        default: "https://res.cloudinary.com/dhc8dqoxo/image/upload/v1748847570/defaultAvatar_ejxeah.jpg"
 
         // We Can add this filter to ensure that the banner and avatar URLs are valid cloudinary URLs
         // match: [/^https?:\/\/res\.cloudinary\.com\/.+/, "Enter valid cloudinary url"]

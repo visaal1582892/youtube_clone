@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { createChannel,updateChannel } from '../Controller/channels.controller.js';
+import { createChannel,updateChannel,deleteChannel } from '../Controller/channels.controller.js';
 import { channelDetailsValidator } from '../Validator/channels.validator.js';
 import protectRoute from '../Middleware/protectRoute.js';
 import upload from '../Middleware/fileHandler.js';

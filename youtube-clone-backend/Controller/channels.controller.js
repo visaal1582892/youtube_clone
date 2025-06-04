@@ -4,10 +4,18 @@ import Video from "../Model/videos.model.js";
 
 // Function To create a new channel
 export const createChannel = async (req, res) => {
-    const { name, handle, owner, description } = req.body;
-    const banner = req.files?.banner?.[0]?.path;
-    const avatar = req.files?.avatar?.[0]?.path;
+    const { name, handle, owner, description } = await req.body;
+    const banner = await req.files?.banner?.[0]?.path;
+    const avatar = await req.files?.avatar?.[0]?.path;
     try {
+        // Check if user already have a channel
+        const user = await User.findById(owner);
+        if (user.channel) {
+            return res.status(400).json({
+                message: "User already has a channel associated with their account. Please delete the existing channel before creating a new one."
+            });
+        }
+
         const newChannel = await Channel.create({
             name,
             handle,
@@ -17,8 +25,8 @@ export const createChannel = async (req, res) => {
             avatar
         });
 
-        // Update the user channels array
-        User.findByIdAndUpdate(owner, { $push: { channels: newChannel._id } }, { new: true });
+        // Update the user channel
+        await User.findByIdAndUpdate(owner, { $set: { channel: newChannel._id } }, { new: true });
         return res.status(201).json({
             message: "Channel created successfully"
         });
@@ -64,6 +72,7 @@ export const updateChannel = async (req, res) => {
     }
 }
 
+// Function To delete a channel by its ID
 export const deleteChannel = async (req, res) => {
     const { channelId } = req.params;
 
@@ -79,7 +88,7 @@ export const deleteChannel = async (req, res) => {
         }
 
         // Remove the channel reference from the user
-        await User.findByIdAndUpdate(deletedChannel.owner, { $pull: { channels: channelId } });
+        await User.findByIdAndUpdate(deletedChannel.owner, { $unset: { channel: '' } });
 
         // Optionally, you can also delete all videos associated with this channel
         await Video.deleteMany({ channel: channelId });
