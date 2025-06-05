@@ -3,7 +3,7 @@ import Video from '../Model/videos.model.js';
 // Functio To implement upload of video
 export const uploadVideo = async (req, res) => {
     try {
-        const { title, description, channel, category, views, likes, dislikes, uploadedAt } = req.body;
+        const { title, description, channel, category, views, likes, dislikes } = req.body;
 
         const video=req.files?.video?.[0]?.path || null;
         const thumbnail = req.files?.thumbnail?.[0]?.path || null;
@@ -18,8 +18,7 @@ export const uploadVideo = async (req, res) => {
             category,
             views,
             likes,
-            dislikes,
-            uploadedAt
+            dislikes
         });
 
         // Save the video to the database
@@ -58,7 +57,6 @@ export const updateVideo = async (req, res) => {
         existingVideo.video = video || existingVideo.video;
         existingVideo.thumbnail = thumbnail || existingVideo.thumbnail;
         existingVideo.category = category || existingVideo.category;
-        existingVideo.uploadedAt = new Date(); // Update the uploadedAt field to current date
 
         // Save the updated video
         await existingVideo.save();

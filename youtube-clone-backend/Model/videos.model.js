@@ -1,21 +1,5 @@
-import { text } from 'express';
 import mongoose from 'mongoose';
-
-// Creating Comment Schema
-const commentSchema = new mongoose.Schema({
-    text: {
-        type: String,
-        required: [true, "Comment content is a required field"],
-        trim: true,
-        minLength: [1, "Comment content must be at least 1 character long"],
-        maxLength: [500, "Comment content must not exceed 500 characters"]
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, "User is a required field"]
-    },
-});
+import Comment from './comments.model.js';
 
 // Creating Video Schema
 const videoSchema = new mongoose.Schema({
@@ -82,21 +66,40 @@ const videoSchema = new mongoose.Schema({
         min: [0, "Dislikes cannot be negative"],
         default: 0
     },
-    comments: {
-        // For later uses
-        // type: [mongoose.Schema.Types.ObjectId],
-        // ref: 'Comment',
-        // default: []
-
-        type: [commentSchema],
-        default: []
-    },
-    uploadedAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+}, {timestamps: true});
 
 // Creating Video Model
-const Video = mongoose.model('Video', videoSchema);
+const Video = await mongoose.model('Video', videoSchema);
+
+// Adding Pre middlewares
+videoSchema.pre('deleteMany', {document: false, query: true}, async function(next) {
+    // If the video is being deleted, we can also delete all comments associated with it
+    const videos = await Video.find(this.getQuery());
+
+    // If no videos are found, we can skip the deletion of comments
+    if (!videos) {
+        return next();
+    }
+
+    // Extracting video IDs from the found videos
+    const videoIds = videos.map(video => video._id);
+    
+    // Deleting all comments associated with the found videos
+    await Comment.deleteMany({ video: { $in: videoIds } });
+
+    next();
+});
+videoSchema.pre('findOneAndDelete', async function(next) {
+    // If the video is being deleted, we can also delete all comments associated with it
+    const videoId = this.getQuery()._id;
+    
+    // If no video ID is found, we can skip the deletion of comments
+    if (!videoId) {
+        return next();
+    }
+
+    await Comment.deleteMany({ video: videoId });
+
+    next();
+});
 export default Video;

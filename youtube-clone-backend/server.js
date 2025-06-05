@@ -3,6 +3,7 @@ import connectToDb from './utils/db.js';
 import userRouter from './Routes/users.routes.js';
 import channelRouter from './Routes/channels.routes.js';
 import videoRouter from './Routes/videos.routes.js';
+import commentRouter from './Routes/comments.routes.js';
 import insertDummyUsers from './utils/insertDummyUsers.js';
 import createVideosForChannel from './utils/createVideosForChannel.js';
 import createChannelsForUsers from './utils/createChannelsForUsers.js';
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use('/users',userRouter);
 app.use('/channels',channelRouter);
 app.use('/videos',videoRouter);
+app.use('/comments',commentRouter);
 
 // Using Application level middleware to handle unknown errors
 app.use((err, req, res, next) => {
