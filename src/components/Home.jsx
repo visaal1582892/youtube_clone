@@ -1,11 +1,13 @@
-import React from 'react'
-import Header from './Header'
+import React, { useState } from 'react'
+import VideoGrid from './VideoGrid'
+
 
 const Home = () => {
+
   return (
-    <div>
-        <Header />
-    </div>
+    <main className='w-[100%] flex '>
+        <VideoGrid />
+    </main>
   )
 }
 

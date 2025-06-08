@@ -1,5 +1,5 @@
 import express from 'express';
-import { uploadVideo,updateVideo,deleteVideo } from '../Controller/videos.controller.js';
+import { uploadVideo,updateVideo,deleteVideo, getAllVideos } from '../Controller/videos.controller.js';
 import upload from '../Middleware/fileHandler.js';
 import protectRoute from '../Middleware/protectRoute.js';
 import { uploadVideoValidator,updateVideoValidator } from '../Validator/videos.validator.js';
@@ -17,4 +17,6 @@ router.put('/updateVideo/:id', protectRoute, upload.fields([{ name: 'video', max
 // 3. Route to delete a video
 router.delete('/deleteVideo/:id', protectRoute, deleteVideo);
 
+// 4. Route to get all the videos
+router.get('/getAllVideos', getAllVideos);
 export default router;

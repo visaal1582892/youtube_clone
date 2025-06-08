@@ -2,6 +2,16 @@
 
 @theme{
   --font-roboto: 'Roboto', sans-serif;
+  --animate-showing: show 0.3s ease-out
+}
+
+@keyframes show {
+  from{
+    left: -100%
+  }
+  to{
+    left: 0
+  }
 }
 
 :root{

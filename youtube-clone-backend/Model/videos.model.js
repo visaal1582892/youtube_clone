@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import Comment from './comments.model.js';
 
 // Creating Video Schema
@@ -39,7 +39,7 @@ const videoSchema = new mongoose.Schema({
         // We Can add this filter to ensure that the banner and avatar URLs are valid cloudinary URLs
         // match: [/^https?:\/\/res\.cloudinary\.com\/.+/, "Enter valid cloudinary url"]
     },
-    thumbnail: {
+    thumbnailUrl: {
         type: String,
         trim: true,
 
@@ -66,6 +66,11 @@ const videoSchema = new mongoose.Schema({
         min: [0, "Dislikes cannot be negative"],
         default: 0
     },
+    comments: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Comment',
+        default: []
+    }
 }, {timestamps: true});
 
 // Creating Video Model

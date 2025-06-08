@@ -13,9 +13,11 @@ export const addComment = async (req, res) => {
         });
 
         // Save the comment to the database
-        await newComment.save();
+        const currComment=await newComment.save();
 
-        res.status(201).json({ message: "Comment added successfully", comment: newComment });
+        await Video.findByIdAndUpdate(video, {$push: {comments: currComment._id}});
+
+        return res.status(201).json({ message: "Comment added successfully", comment: newComment });
     } catch (error) {
         console.error('Error adding comment:', error);
         res.status(500).json({ message: 'Internal server error' });
@@ -65,6 +67,9 @@ export const deleteComment = async (req, res) => {
         if (existingComment.user.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'You are not authorized to delete this comment.' });
         }
+
+        // Update Video by deleting commentid from its list.
+        await Video.findByIdAndUpdate(existingComment.video, {$pull: {comments: existingComment._id}});
 
         // Delete the comment
         await existingComment.deleteOne();

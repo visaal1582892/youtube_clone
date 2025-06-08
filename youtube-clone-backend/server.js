@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import connectToDb from './utils/db.js';
 import userRouter from './Routes/users.routes.js';
 import channelRouter from './Routes/channels.routes.js';
@@ -18,6 +19,7 @@ const app=express();
 
 // Using Application level middleware to prase json data from requests
 app.use(express.json());
+app.use(cors());
 
 // Adding userRouter to my app
 app.use('/users',userRouter);

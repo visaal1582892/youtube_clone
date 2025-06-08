@@ -93,3 +93,13 @@ export const deleteVideo = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Function to get all the videos
+export const getAllVideos = async (req,res) => {
+    try{
+        const videos=await Video.find({}).populate('channel');
+        res.status(200).json(videos);
+    }catch(err){
+        res.status(500).json(err.message);
+    }
+}
