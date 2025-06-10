@@ -6,6 +6,7 @@ import store from './utils/redux/store.js';
 import './index.css'
 import App from './App.jsx'
 import Home from './components/Home.jsx'
+import CreateChannel from './components/CreateChannel.jsx';
 // Routing Configuration
 const appRouter=createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const appRouter=createBrowserRouter([
         path: '/',
         element: <Home />
       },
+      {
+        path: '/createChannel',
+        element: <CreateChannel />
+      }
     ]
   }
 ])

@@ -1,14 +1,28 @@
 import { useState } from "react";
 import SearchBar from "./SearchBar";
 import LargeSideBar from './LargeSideBar'
+import { FaUserCircle } from 'react-icons/fa';
+import { useSelector } from "react-redux";
+import { toggleAuthModal, setAuthType } from '../utils/redux/slices/showAuthSlice.js'
+import ProfileDropdown from "./ProfileDropdown.jsx";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
+
+  const [showProfileDropdown,setShowProfileDropdown]=useState(false);
+
+  // Selecting loggedIn and user
+  const { isLoggedIn, userDetails } = useSelector((state) => state.auth)
 
   // Creating State variable to show search bar
   const [showSearch, setShowSearch] = useState(false);
 
   // Creating State variable to show side bar
-  const [showSideBar,setShowSideBar]=useState(false);
+  const [showSideBar, setShowSideBar] = useState(false);
 
   const handleToggleSearch = () => {
     setShowSearch(prev => !prev);
@@ -18,6 +32,15 @@ export default function Header() {
     setShowSideBar(prev => !prev);
   }
 
+  const handleProfieClick = () => {
+    setShowProfileDropdown(prev => !prev);
+  }
+
+  const handleCreateChannel = () => {
+    // Navigate to the create channel page, e.g. '/create-channel'
+    navigate('/createChannel');
+  }
+ 
   const createMenuItems = [
     {
       label: 'Upload video',
@@ -40,7 +63,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="items-center justify-between px-4 py-2 bg-white z-50 w-screen flex">
+    <header className="items-center justify-between px-4 py-2 bg-white z-30 w-screen flex">
       {/* Left: Hamburger + Logo */}
 
       {/* Icon or CloseSearchIcon */}
@@ -67,7 +90,7 @@ export default function Header() {
           viewBox="0 0 93 20"
           focusable="false"
           aria-hidden="true"
-          className="cursor-pointer w-20"
+          className="cursor-pointer w-20 md:w-24"
         >
           <g>
             <path
@@ -112,7 +135,7 @@ export default function Header() {
 
         {/* Create Button with Dropdown */}
         <div className="relative group">
-          <button className="px-3 py-2 bg-gray-100 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-gray-200">
+          <button className="px-3 py-2 bg-gray-100 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-gray-200 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -123,13 +146,13 @@ export default function Header() {
             >
               <path d="M20 12h-8v8h-1v-8H3v-1h8V3h1v8h8v1z" />
             </svg>
-            <span className="inline text-md">Create</span>
+            <span className="sm:inline text-md hidden">Create</span>
           </button>
           <div className="hidden group-hover:block group-focus-within:block absolute w-[200%] bg-white rounded-xl shadow-lg py-2 text-sm border border-gray-200 right-0 top-full z-50">
             {createMenuItems.map(({ label, icon }) => (
               <button
                 key={label}
-                className="flex items-center gap-3 px-4 py-2 w-full text-left hover:bg-gray-100 focus:bg-gray-100"
+                className="flex items-center gap-3 px-4 py-2 w-full text-left hover:bg-gray-100 focus:bg-gray-100 cursor-pointer" onClick={label=='Create Channel'?handleCreateChannel:null}
               >
                 {icon}
                 <span>{label}</span>
@@ -139,9 +162,17 @@ export default function Header() {
         </div>
 
         {/* Profile */}
-        <div className="w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold min-w-8 min-h-8">
-          D
-        </div>
+        {isLoggedIn ? <div className="w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold min-w-8 min-h-8 relative cursor-pointer" onClick={handleProfieClick}>
+          {userDetails?.avatar?<img src={userDetails.avatar} alt="avatar" />:userDetails?.username.charAt(0).toUpperCase()}
+          {showProfileDropdown && <ProfileDropdown />}
+        </div> : <button
+          onClick={() => dispatch(setAuthType('login'))}
+          className="flex items-center gap-2 px-4 py-1.5 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-50 transition cursor-pointer"
+        >
+          <FaUserCircle className="text-xl" />
+          <span className="font-medium text-sm whitespace-nowrap">Sign In</span>
+        </button>
+        }
       </div>}
       {showSideBar && <LargeSideBar />}
     </header>

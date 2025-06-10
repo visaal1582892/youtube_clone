@@ -5,17 +5,17 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Function to implement registration
-export const registerUser = async (req,res) => {
-    const saltRounds=10;
-    const {username, email} = req.body;
+export const registerUser = async (req, res) => {
+    const saltRounds = 10;
+    const { username, email } = req.body;
 
     // Hashing the password
-    const hashedPassword=await bcrypt.hash(req.body.password, saltRounds);
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
     // Getting the avatar path from the uploaded file
-    const avatar=req.file?req.file.path:process.env.DEFAULT_AVATAR_URL;
-    try{
-        const newUser=await User.create({
+    const avatar = req.file ? req.file.path : process.env.DEFAULT_AVATAR_URL;
+    try {
+        const newUser = await User.create({
             username: username,
             email: email,
             password: hashedPassword,
@@ -26,8 +26,8 @@ export const registerUser = async (req,res) => {
             message: "User Registered Successfully"
         });
     }
-    catch(error){
-        return res.status(500).json({message: "Error in registering user", error: error.message});
+    catch (error) {
+        return res.status(500).json({ message: "Error in registering user", error: error.message });
     }
 
 }
@@ -56,3 +56,23 @@ export const loginUser = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
+// Function to get user by id
+export const getUserById = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const populatedUser=await user.populate({
+            path: 'channel',
+            populate: {
+                path: 'videos'
+            }
+        });
+        return res.status(200).json(populatedUser);
+    } catch (error) {
+        return res.status(500).json({ message: "Error fetching user", error: error.message });
+    }
+};

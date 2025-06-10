@@ -5,7 +5,7 @@ const VideoCard = ({ video }) => {
   return (
     <Link to={`/watch/${video._id}`} className="w-full">
       <div className="mb-4">
-        {/* Thumbnail or video preview placeholder */}
+        {/* Thumbnail */}
         <div className="relative rounded-lg overflow-hidden">
           <img src={video.thumbnailUrl} alt="thumbnail" />
           {/* Showing default duration */}
@@ -15,7 +15,7 @@ const VideoCard = ({ video }) => {
         <div className="flex mt-2 gap-2">
           {/* Channel logo placeholder */}
           <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white font-bold">
-            {video.channel.name}
+            <img src={video.channel.avatar} alt="channelAvatar" className='rounded-full' />
           </div>
 
           <div className="text-sm">

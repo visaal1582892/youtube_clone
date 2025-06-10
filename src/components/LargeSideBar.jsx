@@ -58,7 +58,7 @@ const menu = [
 
 const LargerSideBar = () => {
   return (
-    <div className="w-54 h-screen border-r overflow-y-visible border-gray-200 bg-white text-sm absolute left-0 top-[50%] z-50 animate-showing">
+    <div className="w-54 h-screen border-r overflow-y-auto border-gray-200 bg-white text-sm absolute left-0 top-[50%] z-50 animate-showing">
       {menu.map((block, i) => (
         <div key={i} className="border-b border-gray-200">
           {block.section && (

@@ -86,9 +86,9 @@ const items = [
 
 const SmallSideBar = () => {
     return (
-        <div className="w-[6%] hidden flex-col items-center py-4 space-y-6 border-gray-200 sm:flex bg-white h-[100vh] absolute top-[50%]">
+        <div className="w-[6%] hidden flex-col items-center py-4 space-y-6 border-gray-200 md:flex bg-white h-[100vh] absolute top-[50%]">
             {items.map((item) => (
-                <div key={item.label} className="flex flex-col items-center space-y-1 cursor-pointer hover:bg-gray-100 p-2 rounded-lg">
+                <div key={item.label} className="flex flex-col items-center space-y-1 cursor-pointer hover:bg-gray-200 p-2 rounded-lg">
                     {item.icon}
                     <span className="text-[0.65em]">{item.label}</span>
                 </div>
