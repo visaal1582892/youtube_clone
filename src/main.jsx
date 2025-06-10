@@ -7,6 +7,8 @@ import './index.css'
 import App from './App.jsx'
 import Home from './components/Home.jsx'
 import CreateChannel from './components/CreateChannel.jsx';
+import ChannelPage from './components/ChannelPage.jsx';
+import CustomizeContent from './components/CustomizeContent.jsx';
 // Routing Configuration
 const appRouter=createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const appRouter=createBrowserRouter([
       {
         path: '/createChannel',
         element: <CreateChannel />
+      },
+      {
+        path: '/viewChannel/:channelId',
+        element: <ChannelPage />
+      },
+      {
+        path: '/customizeContent',
+        element: <CustomizeContent />
       }
     ]
   }

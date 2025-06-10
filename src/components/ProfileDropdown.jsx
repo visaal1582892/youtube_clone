@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { logout } from "../utils/redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate,Link } from "react-router-dom";
 
 import {
     FaUserCircle,
@@ -30,6 +31,7 @@ const ProfileDropdown = () => {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef();
     const dispatch=useDispatch();
+    const navigate=useNavigate();
 
     // Selecting user details
     const userDetails=useSelector((state) => state.auth.userDetails);
@@ -37,6 +39,7 @@ const ProfileDropdown = () => {
     // Function to handle logout
     const handleLogout = () => {
         dispatch(logout());
+        navigate('/');
     }
 
     useEffect(() => {
@@ -119,14 +122,12 @@ const ProfileDropdown = () => {
                 <div className="text-md font-normal text-black">{userDetails?.username}</div>
 
                 {/* channel handle */}
-                {userDetails?.channel?<div className="text-sm text-gray-500">{userDetails?.handle}</div>:null}
+                {userDetails?.channel?<div className="text-sm text-gray-500">{userDetails?.channel?.handle}</div>:null}
 
-                {/* view channe link */}
-                {userDetails?.channel?<a href="#" className="text-blue-600 text-sm hover:underline">
+                {/* view channel link */}
+                <Link to="/customizeContent" className="text-blue-600 text-sm hover:underline">
                     View your channel
-                </a>:<a href="#" className="text-blue-600 text-sm hover:underline">
-                    create channel
-                </a>}
+                </Link>
             </div>
 
             {/* Menu Items */}

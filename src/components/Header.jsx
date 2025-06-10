@@ -91,6 +91,7 @@ export default function Header() {
           focusable="false"
           aria-hidden="true"
           className="cursor-pointer w-20 md:w-24"
+          onClick={() => navigate('/')}
         >
           <g>
             <path
@@ -152,7 +153,7 @@ export default function Header() {
             {createMenuItems.map(({ label, icon }) => (
               <button
                 key={label}
-                className="flex items-center gap-3 px-4 py-2 w-full text-left hover:bg-gray-100 focus:bg-gray-100 cursor-pointer" onClick={label=='Create Channel'?handleCreateChannel:null}
+                className="flex items-center gap-3 px-4 py-2 w-full text-left hover:bg-gray-100 focus:bg-gray-100 cursor-pointer" onClick={(label=='Create Channel')?handleCreateChannel:null}
               >
                 {icon}
                 <span>{label}</span>
@@ -174,7 +175,7 @@ export default function Header() {
         </button>
         }
       </div>}
-      {showSideBar && <LargeSideBar />}
+      {showSideBar && <LargeSideBar setShowSideBar={setShowSideBar}/>}
     </header>
   );
 }

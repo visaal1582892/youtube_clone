@@ -8,7 +8,7 @@ import AuthModal from './components/AuthModal';
 import { useEffect } from 'react';
 import { setUserDetails } from './utils/redux/slices/authSlice';
 import { jwtDecode } from 'jwt-decode';
-import { login } from './utils/redux/slices/authSlice';
+import { login,logout } from './utils/redux/slices/authSlice';
 import axios from 'axios';
 
 function App() {
@@ -30,7 +30,13 @@ function App() {
         }
       })
         .then(res => dispatch(setUserDetails(res.data)))
-        .catch(err => console.error("Unauthorized or failed to fetch", err));}
+        .catch(err => {console.error("Unauthorized or failed to fetch", err)
+          dispatch(logout());
+        });
+      }
+      else{
+        
+      }
     }
   }, [isLoggedIn, userId])
 

@@ -4,7 +4,7 @@ import useFetch from '../utils/customHooks/useFetch';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData, setLoading, setError } from '../utils/redux/slices/videosSlice.js';
 
-const VideoGrid = () => {
+const HomeVideoGrid = () => {
   const dispatch = useDispatch();
 
   // Using custom hook
@@ -48,4 +48,4 @@ const VideoGrid = () => {
   );
 };
 
-export default VideoGrid;
+export default HomeVideoGrid;

@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { createChannel,updateChannel,deleteChannel } from '../Controller/channels.controller.js';
+import { createChannel,updateChannel,deleteChannel, getChannelById } from '../Controller/channels.controller.js';
 import { channelDetailsValidator } from '../Validator/channels.validator.js';
 import protectRoute from '../Middleware/protectRoute.js';
 import upload from '../Middleware/fileHandler.js';
@@ -18,4 +18,6 @@ router.put('/updateChannel/:channelId', protectRoute, upload.fields([{ name: 'ba
 // 3. Delete a channel
 router.delete('/deleteChannel/:channelId', protectRoute, deleteChannel);
 
+// 4. Get channel by id
+router.get('/getChannelById/:channelId',getChannelById);
 export default router;

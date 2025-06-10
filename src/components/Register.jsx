@@ -68,27 +68,54 @@ const Register = () => {
     dispatch(toggleAuthModal());
   };
 
+  // Add a dynamic key to the file input so it resets when avatarFile changes
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <h2 className="text-xl font-bold">Register</h2>
 
-      {/* Avatar upload block */}
+      {/* Avatar upload block (same as create channel) */}
       <div className="flex flex-col items-center space-y-2">
-        <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+        <label
+          htmlFor="avatar-upload"
+          className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center cursor-pointer border-2 border-dashed border-gray-400 hover:border-blue-500 transition"
+        >
           {avatarPreview ? (
-            <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover" />
+            <img
+              src={avatarPreview}
+              alt="Avatar Preview"
+              className="w-full h-full object-cover"
+            />
           ) : (
-            <span className="w-full h-full flex items-center justify-center text-gray-500 text-sm">Avatar</span>
+            <span className="text-gray-500 text-sm">Upload Avatar</span>
           )}
-        </div>
-        <input type="file" accept="image/*" onChange={handleAvatarChange} className="text-sm" />
+        </label>
+        <input
+          key={avatarFile ? avatarFile.name + avatarFile.size + avatarFile.lastModified : 'empty'}
+          id="avatar-upload"
+          type="file"
+          accept="image/*"
+          onChange={handleAvatarChange}
+          className="hidden"
+        />
+        {avatarPreview && (
+          <button
+            type="button"
+            className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer"
+            onClick={() => {
+              setAvatarFile(null);
+              setAvatarPreview(null);
+            }}
+          >
+            Remove
+          </button>
+        )}
       </div>
 
       <input
         type="text"
         name="username"
         placeholder="Name"
-        value={form.name}
+        value={form.username}
         onChange={handleChange}
         className="input"
         required

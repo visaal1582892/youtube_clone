@@ -26,7 +26,7 @@ export const createChannel = async (req, res) => {
         });
 
         // Update the user channel
-        await User.findByIdAndUpdate(owner, { $set: { channel: newChannel._id } }, { new: true });
+        User.findByIdAndUpdate(owner, { $set: { channel: newChannel._id } }, { new: true });
         return res.status(201).json({
             message: "Channel created successfully"
         });
@@ -100,5 +100,22 @@ export const deleteChannel = async (req, res) => {
         return res.status(400).json({
             message: error.message,
         });
+    }
+}
+
+// Function to get the channel by id
+export const getChannelById = async (req, res) => {
+    const { channelId } = req.params;
+    try {
+        const channel = await Channel.findById(channelId).populate({
+            path:'videos',
+            populate:'channel'
+        });
+        if (!channel) {
+            return res.status(404).json({ message: "Channel not found" });
+        }
+        return res.status(200).json({ channel });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
     }
 }

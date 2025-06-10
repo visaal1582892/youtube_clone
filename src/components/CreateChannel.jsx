@@ -1,21 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { setAuthType } from '../utils/redux/slices/showAuthSlice';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const CreateChannel = () => {
-    const [banner, setBanner] = useState(null);
-    const [avatar, setavatar] = useState(null);
+    const [banner, setBanner] = useState(null); // Preview URL
+    const [avatar, setAvatar] = useState(null); // Preview URL
+    const [bannerFile, setBannerFile] = useState(null); // Actual file
+    const [avatarFile, setAvatarFile] = useState(null); // Actual file
     const [name, setName] = useState('');
     const [handle, setHandle] = useState('');
     const [description, setDescription] = useState('');
 
-    const userDetails = useSelector((state) => state.auth.userDetails)
+    const {isLoggedIn,userDetails,userId} = useSelector((state) => state.auth);
 
-    const handleBannerUpload = (e) => setBanner(URL.createObjectURL(e.target.files[0]));
-    const handleProfileUpload = (e) => setavatar(URL.createObjectURL(e.target.files[0]));
+    const navigate=useNavigate();
+    const dispatch=useDispatch()
 
-    const handlePublish = () => {
-        console.log({ banner, avatar, name, handle, description });
-        alert('Channel updated!');
+    useEffect(() => {
+        if(!isLoggedIn && !localStorage.getItem("userToken")){
+            navigate('/');
+            dispatch(setAuthType('login'));
+        }
+    },[])
+
+    const handleBannerUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setBannerFile(file);
+            setBanner(URL.createObjectURL(file));
+        }
+    };
+
+    const handleProfileUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setAvatarFile(file);
+            setAvatar(URL.createObjectURL(file));
+        }
+    };
+
+    const handlePublish = async () => {
+        const formData = new FormData();
+        if (bannerFile) formData.append('banner', bannerFile);
+        if (avatarFile) formData.append('avatar', avatarFile);
+        formData.append('name', name);
+        formData.append('handle', handle);
+        formData.append('description', description);
+        formData.append('owner', `${userId}`);
+
+        try {
+            const response = await axios.post('http://localhost:5000/channels/createChannel', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `JWT ${localStorage.getItem("userToken")}`
+                },
+            });
+            console.log(response.data);
+            alert('Channel updated!');
+            setBanner(null);
+            setAvatar(null); // Preview URL
+            setBannerFile(null); // Actual file
+            setAvatarFile(null); // Actual file
+            setName('');
+            setHandle('');
+            setDescription('');
+
+        } catch (error) {
+            console.error('Upload failed:', error);
+            alert('Upload failed!');
+        }
     };
 
     return (
@@ -49,10 +105,7 @@ const CreateChannel = () => {
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) setBanner(URL.createObjectURL(file));
-                                }}
+                                onChange={handleBannerUpload}
                                 className="hidden"
                                 key={banner || 'initial-banner'}
                             />
@@ -61,7 +114,10 @@ const CreateChannel = () => {
                             <button
                                 type="button"
                                 className="ml-3 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                                onClick={() => setBanner(null)}
+                                onClick={() => {
+                                    setBanner(null);
+                                    setBannerFile(null);
+                                }}
                             >
                                 Remove
                             </button>
@@ -87,28 +143,25 @@ const CreateChannel = () => {
                         )}
                     </div>
                     <div>
-                        <p className="text-sm text-gray-600 mb-2">
-                            Recommended: 98x98px, PNG/GIF, 4MB max
-                        </p>
+                        <p className="text-sm text-gray-600 mb-2">Recommended: 98x98px, PNG/GIF, 4MB max</p>
                         <label className="inline-block px-2 py-1 bg-black text-white rounded cursor-pointer hover:bg-gray-800 transition-colors duration-150">
                             Upload
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) setavatar(URL.createObjectURL(file));
-                                }}
+                                onChange={handleProfileUpload}
                                 className="hidden"
                                 key={avatar || 'initial-avatar'}
                             />
                         </label>
-
                         {avatar && (
                             <button
                                 type="button"
                                 className="ml-3 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                                onClick={() => setavatar(null)}
+                                onClick={() => {
+                                    setAvatar(null);
+                                    setAvatarFile(null);
+                                }}
                             >
                                 Remove
                             </button>

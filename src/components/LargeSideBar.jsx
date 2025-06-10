@@ -1,4 +1,4 @@
-import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   MdHomeFilled,
   MdSlowMotionVideo,
@@ -56,9 +56,13 @@ const menu = [
   },
 ];
 
-const LargerSideBar = () => {
+const LargerSideBar = ({setShowSideBar}) => {
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
-    <div className="w-54 h-screen border-r overflow-y-auto border-gray-200 bg-white text-sm absolute left-0 top-[50%] z-50 animate-showing">
+    <div className={`w-54 h-screen border-r overflow-y-auto border-gray-200 bg-white text-sm absolute left-0 ${location.pathname=='/'?"top-[50%]":"top-[100%]"} z-50 animate-showing max-h-[91vh]`}>
       {menu.map((block, i) => (
         <div key={i} className="border-b border-gray-200">
           {block.section && (
@@ -68,6 +72,9 @@ const LargerSideBar = () => {
             <div
               key={label}
               className={`flex items-center gap-4 px-4 py-2 cursor-pointer hover:bg-gray-100`}
+              onClick={label == 'Home' ? () => {navigate('/');
+              setShowSideBar(false)
+              } : null}
             >
               <div className="text-xl">{icon}</div>
               <span>{label}</span>

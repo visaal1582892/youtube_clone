@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const items = [
     {
@@ -20,6 +22,7 @@ const items = [
                 />
             </svg>
         ),
+        onClick: () => navigate('/')
     },
     {
         label: 'Shorts',
@@ -40,6 +43,7 @@ const items = [
                 />
             </svg>
         ),
+        onClick: null
     },
     {
         label: 'Subscriptions',
@@ -60,6 +64,7 @@ const items = [
                 />
             </svg>
         ),
+        onClick: null
     },
     {
         label: 'You',
@@ -80,13 +85,14 @@ const items = [
                 />
             </svg>
         ),
+        onClick: null
     },
 ];
 
-
 const SmallSideBar = () => {
+    const navigate=useNavigate();
     return (
-        <div className="w-[6%] hidden flex-col items-center py-4 space-y-6 border-gray-200 md:flex bg-white h-[100vh] absolute top-[50%]">
+        <div className="w-[7%] hidden flex-col items-center py-4 space-y-6 border-gray-200 md:flex bg-white h-[100vh] absolute top-[50%]">
             {items.map((item) => (
                 <div key={item.label} className="flex flex-col items-center space-y-1 cursor-pointer hover:bg-gray-200 p-2 rounded-lg">
                     {item.icon}
