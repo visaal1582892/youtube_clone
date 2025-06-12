@@ -50,9 +50,11 @@ const Register = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log('Registered:', response.data);
+      alert("Registration Successful");
       // Redirect or close modal
     } catch (err) {
       console.error('Register Error:', err);
+      alert("User registration failed");
       return;
     }
 

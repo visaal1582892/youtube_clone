@@ -1,6 +1,7 @@
 import React, { useEffect,useMemo } from 'react';
 import VideoCard from './VideoCard';
 import { useDispatch, useSelector } from 'react-redux';
+import LoadingPage from './LoadingPage';
 
 const HomeVideoGrid = ({className}) => {
   
@@ -24,7 +25,7 @@ const HomeVideoGrid = ({className}) => {
           <VideoCard key={video._id} video={video} />
         ))
       ) : (
-        <p className="text-center col-span-full text-gray-500">Loading ...</p>
+        <LoadingPage />
       )}
     </div>
   );

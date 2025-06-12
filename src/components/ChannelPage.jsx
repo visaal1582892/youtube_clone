@@ -1,19 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import ChannelVideos from './ChannelVideos';
-import { setAuthType } from '../utils/redux/slices/showAuthSlice';
-import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
 const ChannelPage = () => {
     const { channelId } = useParams();
-
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [channel, setChannel] = useState(null);
 
@@ -24,6 +16,7 @@ const ChannelPage = () => {
             })
             .catch(error => {
                 console.error("Failed to fetch channel:", error);
+                alert("Failed to fetch channel:", error)
             });
     }, [])
 

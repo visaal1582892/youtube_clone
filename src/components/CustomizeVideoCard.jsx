@@ -28,13 +28,13 @@ const CustomizeVideoCard = ({ video, onUpdate, onDelete }) => {
       <div className="flex gap-3 mt-3">
         <button
           onClick={() => setShowModal(true)}
-          className="bg-slate-500 text-white px-3 py-1 rounded"
+          className="bg-slate-500 text-white px-3 py-1 rounded cursor-pointer"
         >
           Update
         </button>
         <button
           onClick={handleDelete}
-          className="bg-red-500 text-white px-3 py-1 rounded"
+          className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
         >
           Delete
         </button>
@@ -42,9 +42,9 @@ const CustomizeVideoCard = ({ video, onUpdate, onDelete }) => {
 
       {/* Update Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40">
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-40 backdrop-blur-md">
           <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
-            <h2 className="text-xl font-bold mb-4">Update Video</h2>
+            <h2 className="text-xl font-bold mb-4">Update Video</h2>Title: 
             <input
               type="text"
               name="title"
@@ -53,6 +53,7 @@ const CustomizeVideoCard = ({ video, onUpdate, onDelete }) => {
               className="w-full border px-3 py-2 mb-3 rounded"
               placeholder="Title"
             />
+            Description: 
             <input
               type="text"
               name="description"
@@ -64,13 +65,13 @@ const CustomizeVideoCard = ({ video, onUpdate, onDelete }) => {
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-1 border rounded"
+                className="px-4 py-1 border rounded cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdateSubmit}
-                className="px-4 py-1 bg-blue-600 text-white rounded"
+                className="px-4 py-1 bg-blue-600 text-white rounded cursor-pointer"
               >
                 Save
               </button>

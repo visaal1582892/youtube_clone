@@ -24,6 +24,7 @@ const CommentCard = ({ comment, currentUser, onUpdate }) => {
             if (onUpdate) onUpdate();
         } catch (err) {
             console.error('Update failed:', err);
+            alert("failed to update the comment");
         }
     };
 
@@ -37,6 +38,7 @@ const CommentCard = ({ comment, currentUser, onUpdate }) => {
             if (onUpdate) onUpdate();
         } catch (err) {
             console.error('Delete failed:', err);
+            alert("failed to delete the comment");
         }
     };
 

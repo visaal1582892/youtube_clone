@@ -18,10 +18,14 @@ const videosSlice=createSlice({
         setError: (state,action) => {
             state.error=action.payload
             state.loading=false;
+        },
+        deleteVideoById: (state,action) => {
+            const updatedVideos=state.videos.filter((video) => video._id != action.payload);
+            state.videos=updatedVideos;
         }
     }
 })
 
-export const {setVideos, setLoading, setError} = videosSlice.actions;
+export const {setVideos, setLoading, setError, deleteVideoById} = videosSlice.actions;
 
 export default videosSlice.reducer;

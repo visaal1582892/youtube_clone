@@ -18,6 +18,7 @@ const Comments = ({ videoId }) => {
             setComments(data.comments);
         } catch (err) {
             console.error('Failed to fetch updated comments:', err);
+            alert("failed to fetch comments");
         }
     };
 
@@ -54,6 +55,7 @@ const Comments = ({ videoId }) => {
 
         } catch (err) {
             console.error('Error adding comment:', err);
+            alert("Failed to add comments");
         }
     };
 

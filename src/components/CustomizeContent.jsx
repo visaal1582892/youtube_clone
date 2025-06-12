@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import CustomizeVideoCard from './CustomizeVideoCard';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import axios from 'axios';
+import { deleteVideoById } from '../utils/redux/slices/videosSlice';
 
 const CustomizeContent = () => {
+  const dispatch=useDispatch();
   const [videos, setVideos] = useState([]);
   const channel = useSelector((state) => state.auth?.userDetails?.channel);
 
@@ -36,6 +38,7 @@ const CustomizeContent = () => {
     })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
+    dispatch(deleteVideoById(videoId));
   };
 
   return (
