@@ -135,8 +135,8 @@ npm run dev
 
 **Rohit Varma Datla**
 Full-Stack Developer | Passionate about building real-world web apps
-📧 \[[your-email@example.com](mailto:your-email@example.com)]
-🔗 [LinkedIn](https://linkedin.com/in/your-profile) | [Portfolio](https://your-portfolio.com)
+📧 \[[visaal1582892@gmail.com](mailto:visaal1582892@gmail.com)]
+🔗 [LinkedIn](https://www.linkedin.com/in/rohit-varma-datla-a84360249) 
 
 ---
 
