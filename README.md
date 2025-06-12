@@ -2,6 +2,8 @@
 
 A full-stack video-sharing platform built with the MERN stack (MongoDB, Express.js, React.js, Node.js) and Tailwind CSS. This clone replicates key features of YouTube, including video uploads, channel customization, comments, and JWT-based authentication.
 
+Project Github link: [YouTube Clone](https://github.com/visaal1582892/youtube_clone)
+
 ---
 
 ## 🚀 Features
