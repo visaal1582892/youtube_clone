@@ -1,4 +1,4 @@
-import { Outlet,useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import HeaderCategories from './components/HeaderCategories';
@@ -8,37 +8,60 @@ import AuthModal from './components/AuthModal';
 import { useEffect } from 'react';
 import { setUserDetails } from './utils/redux/slices/authSlice';
 import { jwtDecode } from 'jwt-decode';
-import { login,logout } from './utils/redux/slices/authSlice';
+import { login, logout } from './utils/redux/slices/authSlice';
 import axios from 'axios';
+import useFetch from './utils/customHooks/useFetch';
+import { setVideos, setLoading, setError } from './utils/redux/slices/videosSlice';
 
 function App() {
 
-  const { isLoggedIn, userId } = useSelector((state) => state.auth);
+  const { isLoggedIn, userId, userDetails } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  const location=useLocation();
+  const location = useLocation();
+
+  // Using custom hook
+  const { data, error, loading } = useFetch("http://localhost:5000/videos/getAllVideos");
 
   useEffect(() => {
-    if (localStorage.getItem("userToken")) {
-      const userToken=localStorage.getItem("userToken")
-      const tokenDecodeRes = jwtDecode(userToken);
-      console.log(tokenDecodeRes);
-      dispatch(login(tokenDecodeRes.userId));
-      if(userId){axios.get(`http://localhost:5000/users/${userId}`, {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem("userToken")}`
+    const userToken = localStorage.getItem("userToken");
+    if (userToken) {
+      try {
+        const tokenDecodeRes = jwtDecode(userToken);
+        if (!isLoggedIn || !userId) {
+          dispatch(login(tokenDecodeRes.userId));
         }
-      })
-        .then(res => dispatch(setUserDetails(res.data)))
-        .catch(err => {console.error("Unauthorized or failed to fetch", err)
-          dispatch(logout());
-        });
+        if (!userDetails && tokenDecodeRes.userId) {
+          axios.get(`http://localhost:5000/users/${tokenDecodeRes.userId}`, {
+            headers: {
+              Authorization: `JWT ${userToken}`
+            }
+          })
+          .then(res => dispatch(setUserDetails(res.data)))
+          .catch(err => {
+            console.error("Unauthorized or failed to fetch", err);
+            dispatch(logout());
+          });
+        }
+      } catch (err) {
+        console.error("Invalid token", err);
+        dispatch(logout());
       }
-      else{
-        
-      }
+    } else {
+      dispatch(logout());
     }
-  }, [isLoggedIn, userId])
+  }, [dispatch, isLoggedIn, userId, userDetails]);
+
+  // Dispatch to Redux store
+  useEffect(() => {
+    if (data) {
+      dispatch(setVideos(data));
+    } else if (error) {
+      dispatch(setError(error.message));
+    } else if (loading) {
+      dispatch(setLoading(true));
+    }
+  }, [dispatch, data, error]);
 
   return (
     <div className="w-full flex flex-row flex-wrap justify-center">
@@ -51,9 +74,9 @@ function App() {
 
         {/* Header Categories */}
         {location.pathname === '/' && <HeaderCategories />}
-        </div>
+      </div>
 
-        {/* Main content with Sidebar + Page */}
+      {/* Main content with Sidebar + Page */}
       <div className="flex flex-1">
 
         <Outlet />

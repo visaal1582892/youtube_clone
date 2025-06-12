@@ -55,7 +55,7 @@ const CustomizeContent = () => {
           {/* Channel Info */}
           <div>
             <h1 className="text-2xl font-bold">{channel.name}</h1>
-            <p className="text-sm text-gray-600">@{channel.handle} · {channel.subscribers || 0} subscribers</p>
+            <p className="text-sm text-gray-600">{channel.handle} · {channel.subscribers || 0} subscribers</p>
             <p className="text-sm text-gray-500 mt-1">More about this channel...<span className="text-blue-600 ml-1 cursor-pointer">more</span></p>
           </div>
         </div>

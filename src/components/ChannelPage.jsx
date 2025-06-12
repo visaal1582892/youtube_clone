@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChannelVideos from './ChannelVideos';
 import { setAuthType } from '../utils/redux/slices/showAuthSlice';
@@ -8,28 +8,23 @@ import axios from 'axios';
 
 
 const ChannelPage = () => {
-    const {channelId}=useParams();
+    const { channelId } = useParams();
 
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
     const navigate = useNavigate();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
 
-    const [channel,setChannel]=useState(null);
+    const [channel, setChannel] = useState(null);
 
     useEffect(() => {
-        if (!isLoggedIn && !localStorage.getItem("userToken")) {
-            navigate('/');
-            dispatch(setAuthType('login'));
-        } else {
-            channelId && axios.get(`http://localhost:5000/channels/getChannelById/${channelId}`)
+        channelId && axios.get(`http://localhost:5000/channels/getChannelById/${channelId}`)
             .then(response => {
                 setChannel(response.data.channel);
             })
             .catch(error => {
                 console.error("Failed to fetch channel:", error);
             });
-        }
     }, [])
 
     if (!channelId) {

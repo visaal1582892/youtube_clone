@@ -80,3 +80,18 @@ export const deleteComment = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+// Function to get all the comments of a video
+export const getCommentsByVideoId= async (req,res) => {
+    const { videoId } = req.params;
+    try {
+        const comments = await Comment.find({ video: videoId })
+            .populate('user')
+            .populate('video')
+            .exec();
+        res.status(200).json({ comments });
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}

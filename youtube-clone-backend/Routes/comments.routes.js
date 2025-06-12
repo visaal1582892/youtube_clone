@@ -1,5 +1,5 @@
 import express from 'express';
-import { addComment, updateComment, deleteComment } from '../Controller/comments.controller.js';
+import { addComment, updateComment, deleteComment,getCommentsByVideoId } from '../Controller/comments.controller.js';
 import { validateAddComment,validateUpdateComment } from '../Validator/comments.validator.js';
 import protectRoute from '../Middleware/protectRoute.js';
 
@@ -14,5 +14,8 @@ router.put('/updateComment/:id', protectRoute, validateUpdateComment, updateComm
 
 // 3. Route to delete a comment
 router.delete('/deleteComment/:id', protectRoute, deleteComment);
+
+// 4. Route to get comments by video
+router.get('/getCommentsByVideoId/:videoId', getCommentsByVideoId);
 
 export default router;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { uploadVideo,updateVideo,deleteVideo, getAllVideos } from '../Controller/videos.controller.js';
+import { uploadVideo,updateVideo,deleteVideo, getAllVideos,getVideoById } from '../Controller/videos.controller.js';
 import upload from '../Middleware/fileHandler.js';
 import protectRoute from '../Middleware/protectRoute.js';
 import { uploadVideoValidator,updateVideoValidator } from '../Validator/videos.validator.js';
@@ -19,4 +19,7 @@ router.delete('/deleteVideo/:id', protectRoute, deleteVideo);
 
 // 4. Route to get all the videos
 router.get('/getAllVideos', getAllVideos);
+
+// 5. Route to get a video by id
+router.get('/getVideoById/:videoId',getVideoById);
 export default router;

@@ -103,3 +103,14 @@ export const getAllVideos = async (req,res) => {
         res.status(500).json(err.message);
     }
 }
+
+// Function To get a specific vido by id
+export const getVideoById = async (req, res) => {
+    try{
+        const {videoId}=req.params;
+        const video=await Video.findById(videoId).populate('channel');
+        res.status(200).json(video);
+    }catch(err){
+        res.status(500).json(err.message);
+    }
+}

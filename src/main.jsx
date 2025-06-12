@@ -9,6 +9,7 @@ import Home from './components/Home.jsx'
 import CreateChannel from './components/CreateChannel.jsx';
 import ChannelPage from './components/ChannelPage.jsx';
 import CustomizeContent from './components/CustomizeContent.jsx';
+import VideoPage from './components/VideoPage.jsx';
 // Routing Configuration
 const appRouter=createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const appRouter=createBrowserRouter([
       {
         path: '/customizeContent',
         element: <CustomizeContent />
+      },
+      {
+        path: '/viewVideo/:videoId',
+        element: <VideoPage />
       }
     ]
   }

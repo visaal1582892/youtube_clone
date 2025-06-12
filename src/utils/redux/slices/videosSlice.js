@@ -3,23 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 const videosSlice=createSlice({
     name: 'videos',
     initialState: {
-        data: [],
+        videos: [],
         error: null,
         loading: false
     },
     reducers: {
-        setData: (state,action) => {
-            state.data=action.payload
+        setVideos: (state,action) => {
+            state.videos=action.payload
+            state.loading=false
         },
         setLoading: (state,action) => {
             state.loading=action.payload
         },
         setError: (state,action) => {
             state.error=action.payload
+            state.loading=false;
         }
     }
 })
 
-export const {setData, setLoading, setError} = videosSlice.actions;
+export const {setVideos, setLoading, setError} = videosSlice.actions;
 
 export default videosSlice.reducer;

@@ -1,30 +1,12 @@
 import React, { useEffect,useMemo } from 'react';
 import VideoCard from './VideoCard';
-import useFetch from '../utils/customHooks/useFetch';
 import { useDispatch, useSelector } from 'react-redux';
-import { setData, setLoading, setError } from '../utils/redux/slices/videosSlice.js';
 
-const HomeVideoGrid = () => {
-  const dispatch = useDispatch();
-
-  // Using custom hook
-  const { data, error, loading } = useFetch("http://localhost:5000/videos/getAllVideos");
-
-  // Dispatch to Redux store
-  useEffect(() => {
-    if (data) {
-      dispatch(setData(data));
-      dispatch(setLoading(false));
-    } else if (error) {
-      dispatch(setError(error.message));
-      dispatch(setLoading(false));
-    } else if (loading) {
-      dispatch(setLoading(true));
-    }
-  }, [dispatch, data, error]);
+const HomeVideoGrid = ({className}) => {
+  
 
   // Get videos and search filters from Redux
-  const videos = useSelector((state) => state.videos.data);
+  const videos = useSelector((state) => state.videos.videos);
   const { category, query } = useSelector((state) => state.search);
 
   // Filter videos based on category and search query
@@ -36,7 +18,7 @@ const HomeVideoGrid = () => {
 
 
   return (
-    <div className="grid gap-6 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 w-full md:w-[94%] md:ml-[6%]">
+    <div className={className}>
       {filteredVideos.length > 0 ? (
         filteredVideos.map((video) => (
           <VideoCard key={video._id} video={video} />
