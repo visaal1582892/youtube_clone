@@ -39,9 +39,9 @@ app.use((err, req, res, next) => {
 await connectToDb();
 
 // Deleting any existing data in the collections
-await User.deleteMany({});
-await Channel.deleteMany({});
-await Video.deleteMany({});
+// await User.deleteMany({});
+// await Channel.deleteMany({});
+// await Video.deleteMany({});
 
 // Inserting dummy users and creating channels and videos for them
 const userIds = await insertDummyUsers();
